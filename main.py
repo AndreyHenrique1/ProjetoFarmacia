@@ -1,19 +1,12 @@
-from flask import Flask
+from flask import Flask, render_template, url_for
+from routes.home import home_route
+from routes.categoria import categoria_route
 
-from database.db import db
-from routes.routeIndex import routeIndex
+#Inicializar o flask
+app = Flask(__name__)
 
-class MyServer():
-    def __init__(self):
-        self.app = Flask(__name__)
-        self.app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/farmacia'
-        db.init_app(self.app)
-        routeIndex(self.app)
+app.register_blueprint(home_route)
+app.register_blueprint(categoria_route, url_prefix='/Categorias')
 
-    def run(self):
-        self.app.run(port=3000, debug=True, host="localhost")
-    
-    
-
-app = MyServer()
-app.run()
+#Execução
+app.run(debug=True)
