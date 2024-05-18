@@ -36,7 +36,7 @@ def detalhe_categoria(categoria_id):
     #Exibir detalhes de uma categoria
 
     categoria = list(filter(lambda i: i['id'] == categoria_id, CATEGORIAS)) [0]
-    return render_template("templates/detalhe_categoria.html", categoria=categoria)
+    return render_template("templates/detalhes_categorias.html", categoria=categoria)
 
 
 @categoria_route.route('/<int:categoria_id>/edit')
