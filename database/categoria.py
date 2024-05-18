@@ -1,5 +1,5 @@
 # Simulação de banco de dados
-categorias = [
-    {"id": 1, "nome": "Medicamentos", "detalhes": "Medicamentos gerais"},
-    {"id": 2, "nome": "Higiene Pessoal", "detalhes": "Higiene pessoal em geral"}
+CATEGORIAS = [
+    {"id": 1, "nome": "Medicamentos", "descricao": "Medicamentos gerais"},
+    {"id": 2, "nome": "Higiene Pessoal", "descricao": "Higiene pessoal em geral"}
 ]
