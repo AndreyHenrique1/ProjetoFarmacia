@@ -1,0 +1,15 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody id="lista-categorias">      
+    {% for categoria in categorias%}
+      {% include 'templates/item_categoria.html' %}
+    {%endfor%}
+      </tr>
+    </tbody>
+  </table>

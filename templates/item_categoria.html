@@ -1,0 +1,20 @@
+<tr id="categoria-{{categoria.id}}">
+    <th scope="row">{{categoria.id}}</th>
+    <td>{{categoria.nome}}</td>
+    <td>
+        <button class="btn btn-secondary" c-get="{{url_for('categoria.detalhe_categoria', categoria_id=categoria.id)}}"
+        c-target="#exibir-categoria"
+        data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Ver
+        </button>
+
+        <button class="btn btn-primary" c-get="{{url_for('categoria.form_edit_categoria', categoria_id=categoria.id)}}"
+        c-target="#form-categoria">
+                Editar
+        </button>
+
+        <button class="btn btn-danger" c-delete="{{url_for('categoria.deletar_categoria', categoria_id=categoria.id)}}"
+                c-remove-closest="tr">
+                Deletar
+        </button>
+</td>
