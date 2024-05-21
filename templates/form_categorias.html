@@ -1,6 +1,6 @@
 <form class="c-form" 
           {% if categoria %}
-              action="{{url_for('categoria.atualizar_categoria', categoria_id=categoria.id)}}"
+              action="{{url_for('categoria.atualizar_categoria', categoria_codigo=categoria.codigo)}}"
           {% else %}
               action="{{url_for('categoria.inserir_categorias')}}"
           {% endif %}
@@ -8,7 +8,7 @@
           method="{% if categoria %}PUT{% else %}POST{% endif %}"
 
           {% if categoria %}
-            c-swap="#categoria-{{categoria.id}}"
+            c-swap="#categoria-{{categoria.codigo}}"
           {% else %}
             c-append="#lista-categorias"
 
