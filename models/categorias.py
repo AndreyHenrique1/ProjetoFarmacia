@@ -1,6 +1,6 @@
 from database.db import db
 
-class Categoria(db.Model):
+class Categorias(db.Model):
     
     def to_dict(self):
         return {

@@ -1,11 +1,16 @@
 from flask import Blueprint, render_template, request
 from database.categoria import CATEGORIAS
+from models.categorias import Categorias
+from database.db import db
 
 categoria_route = Blueprint('categoria', __name__, template_folder='../../front-end')
 
 @categoria_route.route('/')
 def lista_categorias():
-    return render_template("templates/lista_categoria.html", categorias=CATEGORIAS)
+    # Listar todos as categorias
+    categorias = Categorias.query.all()
+
+    return render_template("templates/lista_categoria.html", categorias=[categoria.to_dict() for categoria in categorias])
     pass
 
 
@@ -13,13 +18,16 @@ def lista_categorias():
 def inserir_categorias():
     #Inserir categorias
 
-    data = request.json
+    data = request.get_json()
 
-    nova_categoria = {
-        "id": len(CATEGORIAS) + 1,
-        "nome": data['nome'],
-        "descricao": data['descricao'],
-    }
+    nova_categoria = Categorias(
+        nome = data['nome'],
+        descricao =  data['descricao'],
+    )
+
+    # Adicionar a nova categoria ao banco de dados
+    db.session.add(nova_categoria)
+    db.session.commit()
 
     CATEGORIAS.append(nova_categoria)
 
@@ -31,46 +39,65 @@ def form_categorias():
     return render_template("templates/form_categorias.html")
     pass
 
-@categoria_route.route('/<int:categoria_id>')
-def detalhe_categoria(categoria_id):
+@categoria_route.route('/<int:categoria_codigo>')
+def detalhe_categoria(categoria_codigo):
     #Exibir detalhes de uma categoria
 
-    categoria = list(filter(lambda i: i['id'] == categoria_id, CATEGORIAS)) [0]
+    # O codigo abaixo é um exemplo sem um banco de dados
+    #categoria = list(filter(lambda i: i['codigo'] == categoria_codigo, CATEGORIAS)) [0]
+
+    categoria = Categorias.query.filter_by(codigo=categoria_codigo).first()
+
     return render_template("templates/detalhes_categorias.html", categoria=categoria)
 
 
-@categoria_route.route('/<int:categoria_id>/edit')
-def form_edit_categoria(categoria_id):
+@categoria_route.route('/<int:categoria_codigo>/edit')
+def form_edit_categoria(categoria_codigo):
     #Formulario para editar a categoria
     categoria = None
 
-    for i in CATEGORIAS:
-        if i['id'] == categoria_id:
-            categoria = i
+    # O codigo abaixo é um exemplo para ser usado sem um banco de dados
+    '''for i in CATEGORIAS:
+        if i['codigo'] == categoria_codigo:
+            categoria = i'''
+    
+    categoria = Categorias.query.filter_by(codigo=categoria_codigo).first()
     return render_template("templates/form_categorias.html", categoria=categoria)
 
-@categoria_route.route('/<int:categoria_id>/update', methods=['PUT'])
-def atualizar_categoria(categoria_id):
+@categoria_route.route('/<int:categoria_codigo>/update', methods=['PUT'])
+def atualizar_categoria(categoria_codigo):
     #Formulario para atualizar a categoria
-    categoria_editado = None
-    #Obter dados do formulario de edição
+
     data = request.json
 
-    #obter categoria pelo id
+    categoria_editado = Categorias.query.filter_by(codigo=categoria_codigo).first()
+    categoria_editado.nome = data['nome']
+    categoria_editado.descricao = data['descricao']
+    db.session.commit()
+
+    
+    # O codigo abaixo é para ser usado sem um banco de dados
+    '''#obter categoria pelo id
     for i in CATEGORIAS:
-        if i['id'] == categoria_id:
+        if i['codigo'] == categoria_codigo:
             i['nome'] = data['nome']
             i['descricao'] = data['descricao']
 
-            categoria_editado = i
+            categoria_editado = i'''
 
     #editar categoria
     return render_template('templates/item_categoria.html', categoria=categoria_editado)
 
-@categoria_route.route('/<int:categoria_id>/delete', methods=['DELETE'])
-def deletar_categoria(categoria_id):
+@categoria_route.route('/<int:categoria_codigo>/delete', methods=['DELETE'])
+def deletar_categoria(categoria_codigo):
     #Deletar categoria
-    global CATEGORIAS
-    CATEGORIAS = [ i for i in CATEGORIAS if i['id'] != categoria_id ]
+
+    # O codigo abaixo é para ser usado sem um banco de dados
+    '''global CATEGORIAS
+    CATEGORIAS = [ i for i in CATEGORIAS if i['codigo'] != categoria_codigo ]'''
+
+    categoria = Categorias.query.filter_by(codigo=categoria_codigo).first()
+    db.session.delete(categoria)
+    db.session.commit()
 
     return {"deleted":"ok"}
