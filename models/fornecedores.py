@@ -1,6 +1,6 @@
 from database.db import db
 
-class Fornecedor(db.Model):
+class Fornecedores(db.Model):
 
     def to_dict(self):
         return {
