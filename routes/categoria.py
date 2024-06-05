@@ -3,18 +3,18 @@ from database.categoria import CATEGORIAS
 from models.categorias import Categorias
 from database.db import db
 
-categoria_route = Blueprint('categoria', __name__, template_folder='../../front-end')
+categoria_route = Blueprint('categoria', __name__, template_folder='../../front-end/templates/Pasta_categorias')
 
 @categoria_route.route('/')
 def categorias():
-    return render_template("templates/categorias.html")
+    return render_template("categorias.html")
 
 @categoria_route.route('/listas')
 def lista_categorias():
     # Listar todos as categorias
     categorias = Categorias.query.all()
 
-    return render_template("templates/lista_categoria.html", categorias=[categoria.to_dict() for categoria in categorias])
+    return render_template("lista_categoria.html", categorias=[categoria.to_dict() for categoria in categorias])
 
 
 @categoria_route.route('/', methods=['POST'])
@@ -34,13 +34,12 @@ def inserir_categorias():
 
     CATEGORIAS.append(nova_categoria)
 
-    return render_template('templates/item_categoria.html', categoria=nova_categoria)
+    return render_template('item_categoria.html', categoria=nova_categoria)
 
 @categoria_route.route('/new')
 def form_categorias():
     #Formulario para cadastrar uma categoria
-    return render_template("templates/form_categorias.html")
-    pass
+    return render_template("form_categorias.html")
 
 @categoria_route.route('/<int:categoria_codigo>')
 def detalhe_categoria(categoria_codigo):
@@ -51,7 +50,7 @@ def detalhe_categoria(categoria_codigo):
 
     categoria = Categorias.query.filter_by(codigo=categoria_codigo).first()
 
-    return render_template("templates/detalhes_categorias.html", categoria=categoria)
+    return render_template("detalhes_categorias.html", categoria=categoria)
 
 
 @categoria_route.route('/<int:categoria_codigo>/edit')
@@ -65,7 +64,7 @@ def form_edit_categoria(categoria_codigo):
             categoria = i'''
     
     categoria = Categorias.query.filter_by(codigo=categoria_codigo).first()
-    return render_template("templates/form_categorias.html", categoria=categoria)
+    return render_template("form_categorias.html", categoria=categoria)
 
 @categoria_route.route('/<int:categoria_codigo>/update', methods=['PUT'])
 def atualizar_categoria(categoria_codigo):
@@ -89,7 +88,7 @@ def atualizar_categoria(categoria_codigo):
             categoria_editado = i'''
 
     #editar categoria
-    return render_template('templates/item_categoria.html', categoria=categoria_editado)
+    return render_template('item_categoria.html', categoria=categoria_editado)
 
 @categoria_route.route('/<int:categoria_codigo>/delete', methods=['DELETE'])
 def deletar_categoria(categoria_codigo):
