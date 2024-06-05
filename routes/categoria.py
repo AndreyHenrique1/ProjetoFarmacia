@@ -6,12 +6,15 @@ from database.db import db
 categoria_route = Blueprint('categoria', __name__, template_folder='../../front-end')
 
 @categoria_route.route('/')
+def categorias():
+    return render_template("templates/categorias.html")
+
+@categoria_route.route('/listas')
 def lista_categorias():
     # Listar todos as categorias
     categorias = Categorias.query.all()
 
     return render_template("templates/lista_categoria.html", categorias=[categoria.to_dict() for categoria in categorias])
-    pass
 
 
 @categoria_route.route('/', methods=['POST'])
