@@ -1,0 +1,17 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Contato</th>
+        <th scope="col">Endereço</th>
+        <th scope="col">E-mail</th>
+      </tr>
+    </thead>
+    <tbody id="lista-fornecedores">      
+    {% for fornecedor in fornecedores%}
+      {% include 'item_fornecedor.html' %}
+    {%endfor%}
+      </tr>
+    </tbody>
+  </table>

@@ -1,0 +1,43 @@
+<form class="c-form" 
+          {% if fornecedor %}
+              action="{{url_for('fornecedor.atualizar_fornecedor', fornecedor_codigo=fornecedor.codigo)}}"
+          {% else %}
+              action="{{url_for('fornecedor.inserir_fornecedores')}}"
+          {% endif %}
+          
+          method="{% if fornecedor %}PUT{% else %}POST{% endif %}"
+
+          {% if fornecedor %}
+            c-swap="#fornecedor-{{fornecedor.codigo}}"
+          {% else %}
+            c-append="#lista-fornecedores"
+
+          {% endif %}
+
+          c-reload-container="true">
+  <form>
+      <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input type="text" class="form-control" name="nome" {% if fornecedor %} value="{{fornecedor.nome}}" {% endif %}>
+      </div>
+
+      <div class="mb-3">
+          <label class="form-label">Contato</label>
+          <input type="text" class="form-control" name="contato" {% if fornecedor %} value="{{fornecedor.contato}}" {% endif %}>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Endereço</label>
+        <input type="text" class="form-control" name="endereco" {% if fornecedor %} value="{{fornecedor.endereco}}" {% endif %}>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">E-mail</label>
+        <input type="text" class="form-control" name="email" {% if fornecedor %} value="{{fornecedor.email}}" {% endif %}>
+      </div>
+
+      <button type="submit" class="btn btn-primary">
+        {% if fornecedor %} Salvar {% else %} Criar {% endif %}
+      </button>
+  </form>
+</form>
