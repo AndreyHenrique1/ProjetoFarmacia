@@ -1,0 +1,26 @@
+<tr id="produto-{{produto.codigo}}">
+    <th scope="row">{{produto.codigo}}</th>
+    <td>{{produto.nome}}</td>
+    <td>{{produto.detalhes}}</td>
+    <td>{{fornecedor.minimoEstoque}}</td>
+    <td>{{fornecedor.atualEstoque}}</td>
+    <td>{{fornecedor.custoProduto}}</td>
+    <td>{{fornecedor.vendaValor}}</td>
+    <td>{{fornecedor.dataCadastro}}</td>
+    <td>
+        <button class="btn btn-secondary" c-get="{{url_for('produto.detalhe_produto', produto_codigo=produto.codigo)}}"
+        c-target="#exibir-produto"
+        data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Ver
+        </button>
+
+        <button class="btn btn-primary" c-get="{{url_for('produto.form_edit_produto', produto_codigo=produto.codigo)}}"
+        c-target="#form-produto">
+                Editar
+        </button>
+
+        <button class="btn btn-danger" c-delete="{{url_for('produto.deletar_produto', produto_codigo=produto.codigo)}}"
+                c-remove-closest="tr">
+                Deletar
+        </button>
+</td>

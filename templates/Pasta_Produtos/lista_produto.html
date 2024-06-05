@@ -1,0 +1,18 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Detalhes</th>
+        <th scope="col">Estoque atual</th>
+        <th scope="col">Valor de venda</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody id="lista-produtos">      
+    {% for produto in produtos%}
+      {% include 'item_produtos.html' %}
+    {%endfor%}
+      </tr>
+    </tbody>
+  </table>

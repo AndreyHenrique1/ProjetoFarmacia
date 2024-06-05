@@ -1,0 +1,60 @@
+<form class="c-form" 
+          {% if produto %}
+              action="{{url_for('produto.atualizar_produto', produto_codigo=produto.codigo)}}"
+          {% else %}
+              action="{{url_for('produto.inserir_produtos')}}"
+          {% endif %}
+          
+          method="{% if produto %}PUT{% else %}POST{% endif %}"
+
+          {% if produto %}
+            c-swap="#produto-{{produto.codigo}}"
+          {% else %}
+            c-append="#lista-produtores"
+
+          {% endif %}
+
+          c-reload-container="true">
+  <form>
+      <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input type="text" class="form-control" name="nome" {% if produto %} value="{{produto.nome}}" {% endif %}>
+      </div>
+
+      <div class="mb-3">
+          <label class="form-label">Detalhes</label>
+          <input type="text" class="form-control" name="detalhes" {% if fornecedor %} value="{{produto.detalhes}}" {% endif %}>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label class="form-label">Minimo estoque</label>
+          <input type="text" class="form-control" aria-label="Minimo estoque" name="minimoEstoque" {% if produto %} value="{{produto.minimoEstoque}}" {% endif %}>
+        </div>
+        <div class="col">
+          <label class="form-label">Atual estoque</label>
+          <input type="text" class="form-control" aria-label="Atual estoque" name="atualEstoque" {% if produto %} value="{{produto.atualEstoque}}" {% endif %}>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label class="form-label">Custo do produto</label>
+          <input type="text" class="form-control" aria-label="Custo produto" name="custoProduto" {% if produto %} value="{{produto.custoProduto}}" {% endif %}>
+        </div>
+        <div class="col">
+          <label class="form-label">Valor da venda</label>
+          <input type="text" class="form-control" aria-label="Venda valor" name="vendaValor" {% if produto %} value="{{produto.vendaValor}}" {% endif %}>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Data do Cadastro</label>
+        <input type="text" class="form-control" name="dataCadastro" {% if produto %} value="{{produto.dataCadastro}}" {% endif %}>
+    </div>
+
+      <button type="submit" class="btn btn-primary">
+        {% if produto %} Salvar {% else %} Criar {% endif %}
+      </button>
+  </form>
+</form>
