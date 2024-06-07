@@ -2,11 +2,9 @@
     <th scope="row">{{produto.codigo}}</th>
     <td>{{produto.nome}}</td>
     <td>{{produto.detalhes}}</td>
-    <td>{{fornecedor.minimoEstoque}}</td>
-    <td>{{fornecedor.atualEstoque}}</td>
-    <td>{{fornecedor.custoProduto}}</td>
-    <td>{{fornecedor.vendaValor}}</td>
-    <td>{{fornecedor.dataCadastro}}</td>
+    <td>{{produto.atualEstoque}}</td>
+    <td>{{produto.vendaValor}}</td>
+    <td>{{produto.dataCadastro}}</td>
     <td>
         <button class="btn btn-secondary" c-get="{{url_for('produto.detalhe_produto', produto_codigo=produto.codigo)}}"
         c-target="#exibir-produto"
