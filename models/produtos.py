@@ -3,18 +3,19 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 
 class Produtos(db.Model):
+    __tablename__ = 'produtos'
 
     def to_dict(self):
         return {
             'codigo': self.codigo,
-            'nome':self.nome,
-            'detalhes':self.detalhes,
-            'minimoEstoque':self.minimoEstoque,
+            'nome': self.nome,
+            'detalhes': self.detalhes,
+            'minimoEstoque': self.minimoEstoque,
             'atualEstoque': self.atualEstoque,
-            'custoProduto':self.custoProduto,
-            'vendaValor':self.vendaValor,
-            'dataCadastro':self.dataCadastro,
-            'codproduto':self.codproduto
+            'custoProduto': round(self.custoProduto, 2),
+            'vendaValor': round(self.vendaValor, 2),
+            'dataCadastro': self.dataCadastro,
+            'codcategoria': self.codcategoria
         }
 
     codigo = db.Column(db.Integer, primary_key=True)
@@ -22,14 +23,14 @@ class Produtos(db.Model):
     detalhes = db.Column(db.String(100))
     minimoEstoque = db.Column(db.Integer())
     atualEstoque = db.Column(db.Integer())
-    custoProduto = db.Column(db.Float(8,2), nullable=False)
-    vendaValor = db.Column(db.Float(8,2), nullable=False)
+    custoProduto = db.Column(db.Float(8, 2), nullable=False)
+    vendaValor = db.Column(db.Float(8, 2), nullable=False)
     dataCadastro = db.Column(db.String(100))
-    codproduto = db.Column(ForeignKey('produtos.codigo'))
+    codcategoria = db.Column(db.Integer, ForeignKey('categorias.codigo'))
 
-    codproduto = relationship('Produtos', backref='Produtos')
+    categoria_relacionado = relationship('Categorias', backref='produtos')
 
-    def __init__(self, nome, detalhes, minimoEstoque, atualEstoque, custoProduto, vendaValor, dataCadastro, codproduto):
+    def __init__(self, nome, detalhes, minimoEstoque, atualEstoque, custoProduto, vendaValor, dataCadastro, codcategoria=None):
         self.nome = nome
         self.detalhes = detalhes
         self.minimoEstoque = minimoEstoque
@@ -37,4 +38,5 @@ class Produtos(db.Model):
         self.custoProduto = custoProduto
         self.vendaValor = vendaValor
         self.dataCadastro = dataCadastro
-        self.codproduto = codproduto
+        self.codcategoria = codcategoria
+

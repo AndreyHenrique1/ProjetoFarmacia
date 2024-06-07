@@ -21,6 +21,6 @@ def configure_routes(app):
     app.register_blueprint(produto_route, url_prefix='/Login/ADM/Produtos')
 
 def configure_db(app):
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/farmacia'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost/farmacia'
     db.init_app(app)
 
