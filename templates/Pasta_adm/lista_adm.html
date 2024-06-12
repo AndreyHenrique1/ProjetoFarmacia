@@ -1,16 +1,15 @@
 <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Nome</th>
-        <th scope="col">Email</th>
-        <th scope="col">Senha</th>
-      </tr>
-    </thead>
-    <tbody id="lista-adm">      
-    {% for adm in adms%} 
-      {% include 'adm.html' %}
-    {%endfor%}
-      </tr>
-    </tbody>
-  </table>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Email</th>
+      <th scope="col">Senha</th>
+    </tr>
+  </thead>
+  <tbody id="lista-adm">      
+  {% for adm in adms %} 
+    {% include 'item_adm.html' %}
+  {% endfor %}
+  </tbody>
+</table>

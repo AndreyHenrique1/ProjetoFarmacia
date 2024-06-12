@@ -1,6 +1,6 @@
 <form class="c-form" 
           {% if adm %}
-              action="{{url_for('adm.atualizar_adm', adm_codigo=adm.codigo)}}"
+              action="{{url_for('adm.atualizar_adm', adm_codigo=administrador.codigo)}}"
           {% else %}
               action="{{url_for('adm.inserir_adms')}}"
           {% endif %}
@@ -18,12 +18,12 @@
   <form>
       <div class="mb-3">
         <label class="form-label">Nome</label>
-        <input type="text" class="form-control" name="nome" {% if adm %} value="{{adm.nome}}" {% endif %}>
+        <input type="text" class="form-control" name="nome" {% if adm %} value="{{administrador.nome}}" {% endif %}>
       </div>
 
       <div class="mb-3">
           <label class="form-label">Descrição</label>
-          <input type="text" class="form-control" name="descricao" {% if adm %} value="{{adm.descricao}}" {% endif %}>
+          <input type="text" class="form-control" name="descricao" {% if adm %} value="{{administrador.descricao}}" {% endif %}>
         </div>
 
       <button type="submit" class="btn btn-primary">

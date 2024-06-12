@@ -1,28 +1,52 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login - Farmácia</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  </head>
-  <body>
-    <div class="container"></div>
-        <h1 class="text-center">Aqui é a página do login de usuário e de ADM</h1>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4">Login de Administrador e Usuário</h1>
 
-        <!--Botão para ir na página de ADM-->
-        <div class="container d-flex justify-content-center align-items-center">
-            <button type="button" class="btn btn-primary" onclick="window.location.href='/Login/ADM'">Clique aqui para ir a página de ADM</button>
+        <!-- Formulários lado a lado -->
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <h2 class="text-center">Administrador</h2>
+                <form action="/login/adm" method="POST">
+                    <div class="mb-3">
+                        <label for="adm-email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="adm-email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="adm-senha" class="form-label">Senha:</label>
+                        <input type="password" class="form-control" id="adm-senha" name="senha" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-5">
+                <h2 class="text-center">Usuário</h2>
+                <form action="/login/usuario" method="POST">
+                    <div class="mb-3">
+                        <label for="usuario-email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="usuario-email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="usuario-senha" class="form-label">Senha:</label>
+                        <input type="password" class="form-control" id="usuario-senha" name="senha" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <br>
-
-        <!--Botão para ir na página de login-->
-        <div class="container d-flex justify-content-center align-items-center">
-          <button type="button" class="btn btn-primary" onclick="window.location.href='/Login/Usuarios'">Clique aqui para ir a página de Usuários</button>
-      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  </body>
+</body>
 </html>
