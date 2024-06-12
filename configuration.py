@@ -23,4 +23,3 @@ def configure_routes(app):
 def configure_db(app):
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost/farmacia'
     db.init_app(app)
-
