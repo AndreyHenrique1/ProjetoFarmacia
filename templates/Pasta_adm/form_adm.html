@@ -1,0 +1,33 @@
+<form class="c-form" 
+          {% if adm %}
+              action="{{url_for('adm.atualizar_adm', adm_codigo=adm.codigo)}}"
+          {% else %}
+              action="{{url_for('adm.inserir_adms')}}"
+          {% endif %}
+          
+          method="{% if adm %}PUT{% else %}POST{% endif %}"
+
+          {% if adm %}
+            c-swap="#adm-{{adm.codigo}}"
+          {% else %}
+            c-append="#lista-adms"
+
+          {% endif %}
+
+          c-reload-container="true">
+  <form>
+      <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input type="text" class="form-control" name="nome" {% if adm %} value="{{adm.nome}}" {% endif %}>
+      </div>
+
+      <div class="mb-3">
+          <label class="form-label">Descrição</label>
+          <input type="text" class="form-control" name="descricao" {% if adm %} value="{{adm.descricao}}" {% endif %}>
+        </div>
+
+      <button type="submit" class="btn btn-primary">
+        {% if adm %} Salvar {% else %} Criar {% endif %}
+      </button>
+  </form>
+</form>
