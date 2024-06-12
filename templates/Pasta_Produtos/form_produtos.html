@@ -10,7 +10,7 @@
           {% if produto %}
             c-swap="#produto-{{produto.codigo}}"
           {% else %}
-            c-append="#lista-produtores"
+            c-append="#lista-produtos"
 
           {% endif %}
 
@@ -63,6 +63,15 @@
             <input type="number" step="1" class="form-control" name="vendaValor" {% if produto %} value="{{produto.vendaValor}}" {% endif %}>
         </div>
     </div>
+
+    <div class="mb-3">
+        <label class="form-label">Fornecedor</label>
+        <select class="form-control" name="codFornecedor">
+            {% for fornecedor in fornecedores %}
+                <option value="{{fornecedor.codigo}}" {% if fornecedor and fornecedor.codFornecedor == fornecedor.codigo %} selected {% endif %}>{{fornecedor.nome}}</option>
+            {% endfor %}
+        </select>
+      </div>
 
     <br>
 
