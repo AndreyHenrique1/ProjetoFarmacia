@@ -6,7 +6,11 @@ adm_route = Blueprint('ADM', __name__, template_folder='../../front-end/template
 
 @adm_route.route('/')
 def administradores():
+<<<<<<< HEAD
     return render_template("ADM.html")
+=======
+    return render_template("adms.html")
+>>>>>>> 16b468b54b73123e54a44e8955da1a5ec85d4e68
 
 @adm_route.route('/listas')
 def lista_administradores():
