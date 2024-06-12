@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request
 from models.produtos import Produtos
 from models.categorias import Categorias
+from models.fornecedores import Fornecedores
 from database.db import db
 
 produto_route = Blueprint('produto', __name__, template_folder='../../front-end/templates/Pasta_Produtos')
@@ -19,10 +20,16 @@ def listar_categorias():
     categorias = Categorias.query.all()
     return [{'codigo': categoria.codigo, 'nome': categoria.nome} for categoria in categorias]
 
+@produto_route.route('/fornecedores')
+def listar_fornecedores():
+    fornecedores = Fornecedores.query.all()
+    return [{'codigo': fornecedor.codigo, 'nome': fornecedor.nome} for fornecedor in fornecedores]
+
 @produto_route.route('/new')
 def form_produtos():
     categorias = Categorias.query.all()
-    return render_template("form_produtos.html", categorias=categorias)
+    fornecedores = Fornecedores.query.all()
+    return render_template("form_produtos.html", categorias=categorias, fornecedores=fornecedores)
 
 @produto_route.route('/', methods=['POST'])
 def inserir_produtos():
@@ -36,7 +43,8 @@ def inserir_produtos():
         custoProduto=data['custoProduto'],
         vendaValor=data['vendaValor'],
         dataCadastro=data['dataCadastro'],
-        codcategoria=data.get('codcategoria')
+        codcategoria=data.get('codcategoria'),
+        codFornecedor=data.get('codFornecedor')
     )
 
     db.session.add(novo_produto)
@@ -53,7 +61,8 @@ def detalhe_produto(produto_codigo):
 def form_edit_produto(produto_codigo):
     produto = Produtos.query.filter_by(codigo=produto_codigo).first()
     categorias = Categorias.query.all()
-    return render_template("form_produtos.html", produto=produto.to_dict(), categorias=categorias)
+    fornecedores = Fornecedores.query.all()
+    return render_template("form_produtos.html", produto=produto.to_dict(), categorias=categorias, fornecedores=fornecedores)
 
 @produto_route.route('/<int:produto_codigo>/update', methods=['PUT'])
 def atualizar_produto(produto_codigo):
@@ -68,6 +77,7 @@ def atualizar_produto(produto_codigo):
     produto_editado.vendaValor = data['vendaValor']
     produto_editado.dataCadastro = data['dataCadastro']
     produto_editado.codcategoria = data.get('codcategoria')
+    produto_editado.codFornecedor = data.get('codFornecedor')
 
     db.session.commit()
     return render_template('item_produto.html', produto=produto_editado.to_dict())
