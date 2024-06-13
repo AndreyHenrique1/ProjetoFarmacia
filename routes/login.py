@@ -5,11 +5,11 @@ from database.db import db
 
 login_route = Blueprint('login', __name__, template_folder='../../front-end/templates')
 
-@login_route.route('/login')
+@login_route.route('/')
 def login():
     return render_template('login.html')
 
-@login_route.route('/login/adm', methods=['POST'])
+@login_route.route('/Login/ADM', methods=['POST'])
 def login_adm():
     email = request.form.get('email')
     senha = request.form.get('senha')
@@ -22,7 +22,7 @@ def login_adm():
         flash('Email ou senha de Administrador incorretos.', 'error')
         return redirect(url_for('login.login'))
 
-@login_route.route('/login/usuario', methods=['POST'])
+@login_route.route('/Login/Usuario', methods=['POST'])
 def login_usuario():
     email = request.form.get('email')
     senha = request.form.get('senha')
