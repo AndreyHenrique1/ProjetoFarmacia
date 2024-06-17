@@ -6,7 +6,6 @@ from routes.adm import adm_route
 from routes.fornecedor import fornecedor_route
 from routes.usuario import usuario_route
 from database.db import db
-from flask_bcrypt import Bcrypt
 
 def configure_all(app):
     configure_routes(app)
@@ -23,5 +22,5 @@ def configure_routes(app):
     app.register_blueprint(produto_route, url_prefix='/Login/ADM/Produtos')
 
 def configure_db(app):
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost:3308/farmacia'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/farmacia'
     db.init_app(app)
