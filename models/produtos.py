@@ -43,4 +43,3 @@ class Produtos(db.Model):
         self.dataCadastro = dataCadastro
         self.codcategoria = codcategoria
         self.codFornecedor = codFornecedor
-

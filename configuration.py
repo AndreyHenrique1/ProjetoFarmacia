@@ -11,6 +11,7 @@ from flask_bcrypt import Bcrypt
 def configure_all(app):
     configure_routes(app)
     configure_db(app)
+    app.config['SECRET_KEY'] = 'dervfgvfgf1234'
 
 def configure_routes(app):
     app.register_blueprint(home_route)
@@ -22,6 +23,5 @@ def configure_routes(app):
     app.register_blueprint(produto_route, url_prefix='/Login/ADM/Produtos')
 
 def configure_db(app):
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost/farmacia'
-    app.config['SECRET_KEY'] = 'dervfgvfgf1234'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost:3308/farmacia'
     db.init_app(app)

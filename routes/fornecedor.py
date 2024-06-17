@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session, flash, redirect, url_for
 from database.fornecedor import FORNECEDORES
 from models.fornecedores import Fornecedores
 from database.db import db
@@ -6,7 +6,7 @@ from database.db import db
 fornecedor_route = Blueprint('fornecedor', __name__, template_folder='../../front-end/templates/Pasta_fornecedores')
 
 @fornecedor_route.route('/')
-def fornecedores():
+def fornecedores():   
     return render_template("fornecedores.html")
 
 @fornecedor_route.route('/listas')
