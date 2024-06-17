@@ -64,14 +64,20 @@
         </div>
     </div>
 
-    <div class="mb-3">
-        <label class="form-label">Fornecedor</label>
-        <select class="form-control" name="codFornecedor">
-            {% for fornecedor in fornecedores %}
-                <option value="{{fornecedor.codigo}}" {% if fornecedor and fornecedor.codFornecedor == fornecedor.codigo %} selected {% endif %}>{{fornecedor.nome}}</option>
-            {% endfor %}
-        </select>
-      </div>
+    <div class="row">
+        <div class="col">
+            <label class="form-label">Fornecedor</label>
+            <select class="form-control" name="codFornecedor">
+                {% for fornecedor in fornecedores %}
+                    <option value="{{fornecedor.codigo}}" {% if fornecedor and fornecedor.codFornecedor == fornecedor.codigo %} selected {% endif %}>{{fornecedor.nome}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <label class="form-label">Imagem do produto</label>
+            <input class="form-control" type="file" name="Imagem_produto" id="Imagem_produto">
+        </div>
+    </div>
 
     <br>
 
