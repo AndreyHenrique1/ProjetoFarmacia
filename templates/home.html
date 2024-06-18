@@ -26,7 +26,7 @@
   </style>
 </head>
 <body>
-  <!--Logo-->
+<!--Logo-->
 <nav class="navbar bg-body-tertiary" style="border-bottom: 2px solid #c9c9c9;">
   <div class="container-fluid">
     <img src="{{url_for('static', filename='Imagens/Logo_farmacia.svg')}}" alt="Imagem da logo" width="110" height="60" style="margin-left: 20px;">
@@ -38,7 +38,7 @@
     </div>
     <ul class="nav justify-content-end">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#"><img src="{{url_for('static', filename='Imagens/Img_carrinho.png')}}" alt="Imagem do carrinho" width="60" height="60"></a>
+        <a class="nav-link active" aria-current="page" href="{{ url_for('carrinho.carrinho') }}"><img src="{{url_for('static', filename='Imagens/Img_carrinho.png')}}" alt="Imagem do carrinho" width="60" height="60"></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('login.login') }}"><img src="{{url_for('static', filename='Imagens/Img_login.png')}}" alt="Imagem de login" width="60" height="60"></a>
@@ -68,7 +68,19 @@
   </div>
 </nav>
 
+<br>
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+      <ul class=flashes>
+      {% for category, message in messages %}
+      <li class="alert alert-{{ category }}">{{ message }}</li>
+      {% endfor %}
+      </ul>
+  {% endif %}
+{% endwith %}
+
+{% from "_formhelpers.html" import render_field %}
 
 <!-- Cards de produtos cadastrados no banco de dados -->
 <div class="container" style="margin-top: 40px;">
@@ -84,8 +96,18 @@
             <p class="card-text">R$ {{ "%.2f" | format(produto.vendaValor) }}</p>
           </div>
           <div class="card-footer d-grid">
-            <a href="#" class="btn btn-primary">Adicionar no carrinho</a>
-          </div>
+            <form action="{{ url_for('carrinho.adicionar_ao_carrinho', produto_codigo=produto.codigo) }}" method="post">
+              <div class="input-group mb-3">
+                  <input type="number" name="quantidade" class="form-control" value="1" min="1" required>
+                  <label class="input-group-text" for="quantidade">Quantidade</label>
+              </div>
+              <div class="d-grid">
+                  <button type="submit" class="btn btn-primary">Adicionar no carrinho</button>
+              </div>
+          </form>
+          
+                      
+        </div>        
         </div>
       </div>
       {% endfor %}
