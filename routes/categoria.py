@@ -7,6 +7,8 @@ categoria_route = Blueprint('categoria', __name__, template_folder='../../front-
 
 @categoria_route.route('/')
 def categorias():
+    if 'email' not in session:
+        redirect(url_for('login.login'))
     return render_template("categorias.html")
 
 @categoria_route.route('/listas')

@@ -10,6 +10,8 @@ produto_route = Blueprint('produto', __name__, template_folder='../../front-end/
 
 @produto_route.route('/')
 def produto():
+    if 'email' not in session:
+        redirect(url_for('login.login'))
     return render_template("produtos.html")
 
 @produto_route.route('/listas')

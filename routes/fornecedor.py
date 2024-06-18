@@ -7,6 +7,8 @@ fornecedor_route = Blueprint('fornecedor', __name__, template_folder='../../fron
 
 @fornecedor_route.route('/')
 def fornecedores():   
+    if 'email' not in session:
+        redirect(url_for('login.login'))
     return render_template("fornecedores.html")
 
 @fornecedor_route.route('/listas')

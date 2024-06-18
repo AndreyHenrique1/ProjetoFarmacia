@@ -39,20 +39,26 @@ def login_adm():
     if adm:
         # Login bem-sucedido
         flash('Login como Administrador bem-sucedido!', 'success')
+        session['email'] = email
         return redirect(url_for('ADM.administradores'))
     else:
         flash('Email ou senha de Administrador incorretos.', 'danger')
         return redirect(url_for('login.login'))
 
-@login_route.route('/Usuarios', methods=['POST'])
+@login_route.route('/Usuario', methods=['GET', 'POST'])
 def login_usuario():
-    email = request.form.get('email')
-    senha = request.form.get('senha')
-    usuario = Usuario.query.filter_by(email=email, senha=senha).first()
-    if usuario:
-        # Login bem-sucedido
-        flash('Login como usuário bem-sucedido!', 'success')
-        return redirect(url_for('usuario.usuario'))
+    if request.method == 'POST':
+        email = request.form.get('email')
+        senha = request.form.get('senha')
+        usuario = Usuario.query.filter_by(email=email, senha=senha).first()
+        if usuario:
+            # Login bem-sucedido
+            session['email'] = email
+            flash('Login como Administrador bem-sucedido!', 'success')
+            return redirect(url_for('home.home'))
+        else:
+            flash('Email ou senha de usuário incorretos.', 'danger')
+            return redirect(url_for('login.login'))
     else:
-        flash('Email ou senha de usuário incorretos.', 'danger')
-        return redirect(url_for('login.login'))
+        # Se a solicitação for GET, redirecione para a página de login
+        return render_template('login.html')

@@ -1,12 +1,19 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from models.administrador import Administrador
 from database.db import db
+from functools import wraps
+
+from functools import wraps
+from flask import Blueprint, render_template, session, redirect, url_for, flash
 
 adm_route = Blueprint('ADM', __name__, template_folder='../../front-end/templates/Pasta_adm')
 
 @adm_route.route('/')
 def administradores():
-    return render_template("ADM.html")
+    if 'email' not in session:
+        redirect(url_for('login.login'))
+    return render_template('ADM.html')
+
 
 @adm_route.route('/listas')
 def lista_administradores():
