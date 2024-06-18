@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template, request, session, flash, redirect, url_for
+import os
+from flask import Blueprint, render_template, request, session, flash, redirect, url_for, current_app
+from werkzeug.utils import secure_filename
 from models.produtos import Produtos
 from models.categorias import Categorias
 from models.fornecedores import Fornecedores
@@ -33,7 +35,15 @@ def form_produtos():
 
 @produto_route.route('/', methods=['POST'])
 def inserir_produtos():
-    data = request.get_json()
+    data = request.form
+    file = request.files['imagem_produto']  # Nome correto do campo
+
+    if file and file.filename != '':
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+    else:
+        filename = None
 
     novo_produto = Produtos(
         nome=data['nome'],
@@ -44,7 +54,8 @@ def inserir_produtos():
         vendaValor=data['vendaValor'],
         dataCadastro=data['dataCadastro'],
         codcategoria=data.get('codcategoria'),
-        codFornecedor=data.get('codFornecedor')
+        codFornecedor=data.get('codFornecedor'),
+        imagem_produto=filename  # Passando o nome do arquivo da imagem
     )
 
     db.session.add(novo_produto)
@@ -64,10 +75,17 @@ def form_edit_produto(produto_codigo):
     fornecedores = Fornecedores.query.all()
     return render_template("form_produtos.html", produto=produto.to_dict(), categorias=categorias, fornecedores=fornecedores)
 
-@produto_route.route('/<int:produto_codigo>/update', methods=['PUT'])
+@produto_route.route('/<int:produto_codigo>/update', methods=['POST'])
 def atualizar_produto(produto_codigo):
-    data = request.json
+    data = request.form
     produto_editado = Produtos.query.filter_by(codigo=produto_codigo).first()
+    
+    file = request.files['imagem_produto']  # Nome correto do campo
+    if file and file.filename != '':
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+        produto_editado.imagem_produto = filename
 
     produto_editado.nome = data['nome']
     produto_editado.detalhes = data['detalhes']

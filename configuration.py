@@ -1,3 +1,4 @@
+import os
 from routes.home import home_route
 from routes.categoria import categoria_route
 from routes.login import login_route
@@ -11,6 +12,7 @@ def configure_all(app):
     configure_routes(app)
     configure_db(app)
     app.config['SECRET_KEY'] = 'dervfgvfgf1234'
+    app.config['UPLOAD_FOLDER'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static/Imagens')
 
 def configure_routes(app):
     app.register_blueprint(home_route)
