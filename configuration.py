@@ -6,20 +6,26 @@ from routes.adm import adm_route
 from routes.fornecedor import fornecedor_route
 from routes.usuario import usuario_route
 from database.db import db
+import os
 
 def configure_all(app):
     configure_routes(app)
     configure_db(app)
+    configure_uploads(app)
+    app.config['SECRET_KEY'] = 'dervfgvfgf1234'
 
 def configure_routes(app):
     app.register_blueprint(home_route)
     app.register_blueprint(login_route, url_prefix='/Login')
     app.register_blueprint(adm_route, url_prefix='/Login/ADM')
-    app.register_blueprint(usuario_route, url_prefix='/Login/Usuarios')
+    app.register_blueprint(usuario_route, url_prefix='/Login/Usuarios')  
     app.register_blueprint(fornecedor_route, url_prefix='/Login/ADM/Fornecedor')
     app.register_blueprint(categoria_route, url_prefix='/Login/ADM/Categorias')
     app.register_blueprint(produto_route, url_prefix='/Login/ADM/Produtos')
 
 def configure_db(app):
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/farmacia'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost:3308/farmacia'
     db.init_app(app)
+
+def configure_uploads(app):
+    app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static/uploads')

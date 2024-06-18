@@ -16,7 +16,8 @@ class Produtos(db.Model):
             'vendaValor': round(self.vendaValor, 2),
             'dataCadastro': self.dataCadastro,
             'codcategoria': self.codcategoria,
-            'codFornecedor': self.codFornecedor
+            'codFornecedor': self.codFornecedor,
+            'imagem_produto': self.imagem_produto
         }
 
     codigo = db.Column(db.Integer, primary_key=True)
@@ -29,11 +30,12 @@ class Produtos(db.Model):
     dataCadastro = db.Column(db.String(100))
     codcategoria = db.Column(db.Integer, ForeignKey('categorias.codigo'))
     codFornecedor = db.Column(db.Integer, ForeignKey('fornecedores.codigo'))
+    imagem_produto = db.Column(db.String(100))  # Adicionado campo para imagem
 
     categoria_relacionado = relationship('Categorias', backref='produtos')
     fornecedor_relacionado = relationship('Fornecedores', backref='produtos')
 
-    def __init__(self, nome, detalhes, minimoEstoque, atualEstoque, custoProduto, vendaValor, dataCadastro, codcategoria=None, codFornecedor=None):
+    def __init__(self, nome, detalhes, minimoEstoque, atualEstoque, custoProduto, vendaValor, dataCadastro, imagem_produto=None, codcategoria=None, codFornecedor=None):
         self.nome = nome
         self.detalhes = detalhes
         self.minimoEstoque = minimoEstoque
@@ -41,6 +43,6 @@ class Produtos(db.Model):
         self.custoProduto = custoProduto
         self.vendaValor = vendaValor
         self.dataCadastro = dataCadastro
+        self.imagem_produto = imagem_produto
         self.codcategoria = codcategoria
         self.codFornecedor = codFornecedor
-

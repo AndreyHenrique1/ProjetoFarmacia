@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session, flash, redirect, url_for, current_app
 from models.produtos import Produtos
 from models.categorias import Categorias
 from models.fornecedores import Fornecedores
 from database.db import db
+import os
 
 produto_route = Blueprint('produto', __name__, template_folder='../../front-end/templates/Pasta_Produtos')
 
@@ -33,7 +34,14 @@ def form_produtos():
 
 @produto_route.route('/', methods=['POST'])
 def inserir_produtos():
-    data = request.get_json()
+    data = request.form
+    imagem_produto = request.files['imagem_produto']
+    
+    if imagem_produto:
+        imagem_path = os.path.join(current_app.config['UPLOAD_FOLDER'], imagem_produto.filename)
+        imagem_produto.save(imagem_path)
+    else:
+        imagem_path = None
 
     novo_produto = Produtos(
         nome=data['nome'],
@@ -43,6 +51,7 @@ def inserir_produtos():
         custoProduto=data['custoProduto'],
         vendaValor=data['vendaValor'],
         dataCadastro=data['dataCadastro'],
+        imagem_produto=imagem_produto.filename if imagem_produto else None,
         codcategoria=data.get('codcategoria'),
         codFornecedor=data.get('codFornecedor')
     )
@@ -64,10 +73,16 @@ def form_edit_produto(produto_codigo):
     fornecedores = Fornecedores.query.all()
     return render_template("form_produtos.html", produto=produto.to_dict(), categorias=categorias, fornecedores=fornecedores)
 
-@produto_route.route('/<int:produto_codigo>/update', methods=['PUT'])
+@produto_route.route('/<int:produto_codigo>/update', methods=['POST'])
 def atualizar_produto(produto_codigo):
-    data = request.json
+    data = request.form
+    imagem_produto = request.files['imagem_produto']
     produto_editado = Produtos.query.filter_by(codigo=produto_codigo).first()
+
+    if imagem_produto:
+        imagem_path = os.path.join(current_app.config['UPLOAD_FOLDER'], imagem_produto.filename)
+        imagem_produto.save(imagem_path)
+        produto_editado.imagem_produto = imagem_produto.filename
 
     produto_editado.nome = data['nome']
     produto_editado.detalhes = data['detalhes']
