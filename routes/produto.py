@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-from flask import Blueprint, render_template, request, session, flash, redirect, url_for, current_app
-=======
 import os
 from flask import Blueprint, render_template, request, session, flash, redirect, url_for, current_app
 from werkzeug.utils import secure_filename
->>>>>>> 574e6909fb8cd0db32a8cd9759b79864585b7568
 from models.produtos import Produtos
 from models.categorias import Categorias
 from models.fornecedores import Fornecedores
@@ -43,7 +39,6 @@ def form_produtos():
 @produto_route.route('/', methods=['POST'])
 def inserir_produtos():
     data = request.form
-<<<<<<< HEAD
     imagem_produto = request.files['imagem_produto']
     
     if imagem_produto:
@@ -51,16 +46,6 @@ def inserir_produtos():
         imagem_produto.save(imagem_path)
     else:
         imagem_path = None
-=======
-    file = request.files['imagem_produto']  # Nome correto do campo
-
-    if file and file.filename != '':
-        filename = secure_filename(file.filename)
-        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-        file.save(filepath)
-    else:
-        filename = None
->>>>>>> 574e6909fb8cd0db32a8cd9759b79864585b7568
 
     novo_produto = Produtos(
         nome=data['nome'],
@@ -96,10 +81,7 @@ def form_edit_produto(produto_codigo):
 @produto_route.route('/<int:produto_codigo>/update', methods=['POST'])
 def atualizar_produto(produto_codigo):
     data = request.form
-<<<<<<< HEAD
     imagem_produto = request.files['imagem_produto']
-=======
->>>>>>> 574e6909fb8cd0db32a8cd9759b79864585b7568
     produto_editado = Produtos.query.filter_by(codigo=produto_codigo).first()
     
     file = request.files['imagem_produto']  # Nome correto do campo
