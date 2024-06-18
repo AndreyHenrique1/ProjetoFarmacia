@@ -13,22 +13,32 @@
         width: 300px; 
         margin-right: 10px; 
     }
+
+    /* Garantir que todos os cards tenham a mesma altura */
+    .card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .card-body {
+      flex: 1 1 auto;
+    }
   </style>
 </head>
 <body>
-  <!--Logo-->
+<!--Logo-->
 <nav class="navbar bg-body-tertiary" style="border-bottom: 2px solid #c9c9c9;">
   <div class="container-fluid">
     <img src="{{url_for('static', filename='Imagens/Logo_farmacia.svg')}}" alt="Imagem da logo" width="110" height="60" style="margin-left: 20px;">
     <div class="mx-auto">
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="O que você está procurando?" aria-label="Search">
+      <form class="d-flex" action="{{ url_for('home.pesquisar_produtos') }}" method="post" role="search">
+        <input class="form-control me-2" type="search" placeholder="O que você está procurando?" aria-label="Search" name="termo_pesquisa">
         <button class="btn btn-outline-success" type="submit">Pesquisar</button>
       </form>
     </div>
     <ul class="nav justify-content-end">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#"><img src="{{url_for('static', filename='Imagens/Img_carrinho.png')}}" alt="Imagem do carrinho" width="60" height="60"></a>
+        <a class="nav-link active" aria-current="page" href="{{ url_for('carrinho.carrinho') }}"><img src="{{url_for('static', filename='Imagens/Img_carrinho.png')}}" alt="Imagem do carrinho" width="60" height="60"></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('login.login') }}"><img src="{{url_for('static', filename='Imagens/Img_login.png')}}" alt="Imagem de login" width="60" height="60"></a>
@@ -37,7 +47,7 @@
   </div>
 </nav>
 
-<!--Barra de pesquisar por categorias-->
+<!-- Barra de pesquisar por categorias -->
 <nav class="navbar navbar-expand-lg bg-body-tertiary" style="box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.1);">
   <div class="container-fluid">
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -45,16 +55,66 @@
         Pesquise por categorias
       </a>
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
+        <!-- Link para todas as categorias -->
+        <li><a class="dropdown-item" href="{{ url_for('home.home') }}">Todas as categorias</a></li>
+        <!-- Links para categorias específicas -->
+        {% if categorias %}
+          {% for categoria in categorias %}
+            <li><a class="dropdown-item" href="{{ url_for('home.produtos_por_categoria', codigo_categoria=categoria.codigo) }}">{{ categoria.nome }}</a></li>
+          {% endfor %}
+        {% endif %}
       </ul>
     </div>
   </div>
 </nav>
 
-<div class="container">
+<br>
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+      <ul class=flashes>
+      {% for category, message in messages %}
+      <li class="alert alert-{{ category }}">{{ message }}</li>
+      {% endfor %}
+      </ul>
+  {% endif %}
+{% endwith %}
+
+{% from "_formhelpers.html" import render_field %}
+
+<!-- Cards de produtos cadastrados no banco de dados -->
+<div class="container" style="margin-top: 40px;">
+  <div class="row">
+    {% if produtos %}
+      {% for produto in produtos %}
+      <div class="col-md-3 mb-4">
+        <div class="card h-100">
+          <img src="{{ url_for('static', filename='Imagens/Logo_farmacia.svg') }}" class="card-img-top" alt="Imagem do produto">
+          <div class="card-body">
+            <h5 class="card-title">{{ produto.nome }}</h5>
+            <p class="card-text">{{ produto.detalhes }}</p>
+            <p class="card-text">R$ {{ "%.2f" | format(produto.vendaValor) }}</p>
+          </div>
+          <div class="card-footer d-grid">
+            <form action="{{ url_for('carrinho.adicionar_ao_carrinho', produto_codigo=produto.codigo) }}" method="post">
+              <div class="input-group mb-3">
+                  <input type="number" name="quantidade" class="form-control" value="1" min="1" required>
+                  <label class="input-group-text" for="quantidade">Quantidade</label>
+              </div>
+              <div class="d-grid">
+                  <button type="submit" class="btn btn-primary">Adicionar no carrinho</button>
+              </div>
+          </form>
+          
+                      
+        </div>        
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p>Nenhum produto encontrado</p>
+    {% endif %}
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
