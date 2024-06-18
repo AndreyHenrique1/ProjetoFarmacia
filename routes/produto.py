@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 from flask import Blueprint, render_template, request, session, flash, redirect, url_for, current_app
+=======
+import os
+from flask import Blueprint, render_template, request, session, flash, redirect, url_for, current_app
+from werkzeug.utils import secure_filename
+>>>>>>> 574e6909fb8cd0db32a8cd9759b79864585b7568
 from models.produtos import Produtos
 from models.categorias import Categorias
 from models.fornecedores import Fornecedores
@@ -9,6 +15,8 @@ produto_route = Blueprint('produto', __name__, template_folder='../../front-end/
 
 @produto_route.route('/')
 def produto():
+    if 'email' not in session:
+        redirect(url_for('login.login'))
     return render_template("produtos.html")
 
 @produto_route.route('/listas')
@@ -35,6 +43,7 @@ def form_produtos():
 @produto_route.route('/', methods=['POST'])
 def inserir_produtos():
     data = request.form
+<<<<<<< HEAD
     imagem_produto = request.files['imagem_produto']
     
     if imagem_produto:
@@ -42,6 +51,16 @@ def inserir_produtos():
         imagem_produto.save(imagem_path)
     else:
         imagem_path = None
+=======
+    file = request.files['imagem_produto']  # Nome correto do campo
+
+    if file and file.filename != '':
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+    else:
+        filename = None
+>>>>>>> 574e6909fb8cd0db32a8cd9759b79864585b7568
 
     novo_produto = Produtos(
         nome=data['nome'],
@@ -53,7 +72,8 @@ def inserir_produtos():
         dataCadastro=data['dataCadastro'],
         imagem_produto=imagem_produto.filename if imagem_produto else None,
         codcategoria=data.get('codcategoria'),
-        codFornecedor=data.get('codFornecedor')
+        codFornecedor=data.get('codFornecedor'),
+        imagem_produto=filename  # Passando o nome do arquivo da imagem
     )
 
     db.session.add(novo_produto)
@@ -76,8 +96,18 @@ def form_edit_produto(produto_codigo):
 @produto_route.route('/<int:produto_codigo>/update', methods=['POST'])
 def atualizar_produto(produto_codigo):
     data = request.form
+<<<<<<< HEAD
     imagem_produto = request.files['imagem_produto']
+=======
+>>>>>>> 574e6909fb8cd0db32a8cd9759b79864585b7568
     produto_editado = Produtos.query.filter_by(codigo=produto_codigo).first()
+    
+    file = request.files['imagem_produto']  # Nome correto do campo
+    if file and file.filename != '':
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+        produto_editado.imagem_produto = filename
 
     if imagem_produto:
         imagem_path = os.path.join(current_app.config['UPLOAD_FOLDER'], imagem_produto.filename)

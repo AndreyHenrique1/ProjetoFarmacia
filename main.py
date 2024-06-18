@@ -8,3 +8,4 @@ configure_all(app)
 
 #Execução
 app.run(debug=True)
+

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session, flash, redirect, url_for
 from database.categoria import CATEGORIAS
 from models.categorias import Categorias
 from database.db import db
@@ -7,6 +7,8 @@ categoria_route = Blueprint('categoria', __name__, template_folder='../../front-
 
 @categoria_route.route('/')
 def categorias():
+    if 'email' not in session:
+        redirect(url_for('login.login'))
     return render_template("categorias.html")
 
 @categoria_route.route('/listas')
