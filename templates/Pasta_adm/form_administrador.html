@@ -1,0 +1,25 @@
+<form class="c-form" 
+          action="{{url_for('ADM.inserir_administrador')}}"
+      
+      method="POST"
+      
+      c-reload-container="true">
+  <div class="mb-3">
+    <label class="form-label">Nome</label>
+    <input type="text" class="form-control" name="nome" {% if administrador %} value="{{administrador.nome}}" {% endif %}>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">E-mail</label>
+    <input type="text" class="form-control" name="email" {% if administrador %} value="{{administrador.email}}" {% endif %}>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Senha</label>
+    <input type="text" class="form-control" name="senha" {% if administrador %} value="{{administrador.senha}}" {% endif %}>
+  </div>
+
+  <button type="submit" class="btn btn-primary">
+    Criar 
+  </button>
+</form>

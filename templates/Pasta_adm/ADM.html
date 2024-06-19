@@ -50,14 +50,20 @@
 
       <!-- Botão para ir à página de Produtos -->
       <button type="button" class="button" onclick="window.location.href='/Login/ADM/Produtos'">
-        <img src="{{ url_for('static', filename='Imagens/Img_Cadastrar_Produto.png') }}" alt="Imagem logo da categoria" width="125" height="125">
+        <img src="{{ url_for('static', filename='Imagens/Img_Cadastrar_Produto.png') }}" alt="Imagem logo da produtos" width="125" height="125">
         <div class="button-text">Cadastrar Produto</div>
       </button>
 
       <!-- Botão para ir à página de Fornecedores -->
       <button type="button" class="button" onclick="window.location.href='/Login/ADM/Fornecedor'">
-        <img src="{{ url_for('static', filename='Imagens/Img_Cadastrar_Fornecedor.png') }}" alt="Imagem logo da categoria" width="125" height="125">
+        <img src="{{ url_for('static', filename='Imagens/Img_Cadastrar_Fornecedor.png') }}" alt="Imagem logo da fornecedores" width="125" height="125">
         <div class="button-text">Cadastrar Fornecedor</div>
+      </button>
+
+      <!-- Botão para ir à página de cadastrar adm -->
+      <button type="button" class="button" onclick="window.location.href='/Login/ADM/CadastrarADM'">
+        <img src="{{ url_for('static', filename='Imagens/Img_adm.jpg') }}" alt="Imagem logo da adm" width="125" height="125">
+        <div class="button-text">Cadastrar administradores</div>
       </button>
     </div>
   </div>
