@@ -1,22 +1,3 @@
-<<<<<<< HEAD
-<form class="c-form" 
-      {% if produto %}
-          action="{{url_for('produto.atualizar_produto', produto_codigo=produto.codigo)}}"
-      {% else %}
-          action="{{url_for('produto.inserir_produtos')}}"
-      {% endif %}
-      
-      method="POST"  <!-- Sempre POST para envio de arquivos -->
-      enctype="multipart/form-data" 
-
-      {% if produto %}
-        c-swap="#produto-{{produto.codigo}}"
-      {% else %}
-        c-append="#lista-produtos"
-      {% endif %}
-      c-reload-container="true">
-
-=======
 <form class="c-form" enctype="multipart/form-data"
       {% if produto %}
           action="{{url_for('produto.atualizar_produto', produto_codigo=produto.codigo)}}"
@@ -29,7 +10,6 @@
       {% endif %}
       c-reload-container="true">
     
->>>>>>> 6505b164fb206e8c6233e4922f139eb10355c18a
     <div class="row">
         <div class="col">
             <label class="form-label">Nome</label>
