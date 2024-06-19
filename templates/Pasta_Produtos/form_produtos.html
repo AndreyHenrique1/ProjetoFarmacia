@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <form class="c-form"  method="POST"  
     enctype="multipart/form-data" 
       {% if produto %}
@@ -13,6 +14,20 @@
       {% endif %}
       c-reload-container="true">
 
+=======
+<form class="c-form" enctype="multipart/form-data"
+      {% if produto %}
+          action="{{url_for('produto.atualizar_produto', produto_codigo=produto.codigo)}}"
+          method="POST"
+          c-swap="#produto-{{produto.codigo}}"
+      {% else %}
+          action="{{url_for('produto.inserir_produtos')}}"
+          method="POST"
+          c-append="#lista-produtos"
+      {% endif %}
+      c-reload-container="true">
+    
+>>>>>>> 629fb8c6ce273bddda264d293bda514bd9da601e
     <div class="row">
         <div class="col">
             <label class="form-label">Nome</label>
