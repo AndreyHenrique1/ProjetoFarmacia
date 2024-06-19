@@ -2,13 +2,22 @@ from flask import Blueprint, render_template, request, session, flash, redirect,
 from database.fornecedor import FORNECEDORES
 from models.fornecedores import Fornecedores
 from database.db import db
+from functools import wraps
 
 fornecedor_route = Blueprint('fornecedor', __name__, template_folder='../../front-end/templates/Pasta_fornecedores')
 
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'senha' not in session:
+            flash('Você precisa estar logado para acessar esta página.', 'danger')
+            return redirect(url_for('login.login'))  # Redireciona para a página de login
+        return f(*args, **kwargs)
+    return decorated_function
+
 @fornecedor_route.route('/')
+@login_required
 def fornecedores():   
-    if 'email' not in session:
-        redirect(url_for('login.login'))
     return render_template("fornecedores.html")
 
 @fornecedor_route.route('/listas')

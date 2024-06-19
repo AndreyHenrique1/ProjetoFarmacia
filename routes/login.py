@@ -39,7 +39,7 @@ def login_adm():
     if adm:
         # Login bem-sucedido
         flash('Login como Administrador bem-sucedido!', 'success')
-        session['email'] = email
+        session['senha'] = senha
         return redirect(url_for('ADM.administradores'))
     else:
         flash('Email ou senha de Administrador incorretos.', 'danger')
@@ -54,7 +54,7 @@ def login_usuario():
         if usuario:
             # Login bem-sucedido
             session['email'] = email
-            flash('Login como Administrador bem-sucedido!', 'success')
+            flash('Login como usuário bem-sucedido!', 'success')
             return redirect(url_for('home.home'))
         else:
             flash('Email ou senha de usuário incorretos.', 'danger')

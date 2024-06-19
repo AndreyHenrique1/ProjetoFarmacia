@@ -5,14 +5,23 @@ from models.produtos import Produtos
 from models.categorias import Categorias
 from models.fornecedores import Fornecedores
 from database.db import db
-import os
+from functools import wraps
 
 produto_route = Blueprint('produto', __name__, template_folder='../../front-end/templates/Pasta_Produtos')
 
+# Decoração para exigir login
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'senha' not in session:
+            flash('Você precisa estar logado para acessar esta página.', 'danger')
+            return redirect(url_for('login.login'))  # Redireciona para a página de login
+        return f(*args, **kwargs)
+    return decorated_function
+
 @produto_route.route('/')
+@login_required
 def produto():
-    if 'email' not in session:
-        redirect(url_for('login.login'))
     return render_template("produtos.html")
 
 @produto_route.route('/listas')
@@ -38,14 +47,7 @@ def form_produtos():
 
 @produto_route.route('/', methods=['POST'])
 def inserir_produtos():
-    data = request.form
-    imagem_produto = request.files['imagem_produto']
-    
-    if imagem_produto:
-        imagem_path = os.path.join(current_app.config['UPLOAD_FOLDER'], imagem_produto.filename)
-        imagem_produto.save(imagem_path)
-    else:
-        imagem_path = None
+    data = request.get_json()
 
     novo_produto = Produtos(
         nome=data['nome'],
@@ -55,10 +57,8 @@ def inserir_produtos():
         custoProduto=data['custoProduto'],
         vendaValor=data['vendaValor'],
         dataCadastro=data['dataCadastro'],
-        imagem_produto=imagem_produto.filename if imagem_produto else None,
         codcategoria=data.get('codcategoria'),
-        codFornecedor=data.get('codFornecedor'),
-        imagem_produto=filename  # Passando o nome do arquivo da imagem
+        codFornecedor=data.get('codFornecedor')
     )
 
     db.session.add(novo_produto)
@@ -80,21 +80,8 @@ def form_edit_produto(produto_codigo):
 
 @produto_route.route('/<int:produto_codigo>/update', methods=['POST'])
 def atualizar_produto(produto_codigo):
-    data = request.form
-    imagem_produto = request.files['imagem_produto']
+    data = request.json
     produto_editado = Produtos.query.filter_by(codigo=produto_codigo).first()
-    
-    file = request.files['imagem_produto']  # Nome correto do campo
-    if file and file.filename != '':
-        filename = secure_filename(file.filename)
-        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-        file.save(filepath)
-        produto_editado.imagem_produto = filename
-
-    if imagem_produto:
-        imagem_path = os.path.join(current_app.config['UPLOAD_FOLDER'], imagem_produto.filename)
-        imagem_produto.save(imagem_path)
-        produto_editado.imagem_produto = imagem_produto.filename
 
     produto_editado.nome = data['nome']
     produto_editado.detalhes = data['detalhes']
@@ -107,7 +94,7 @@ def atualizar_produto(produto_codigo):
     produto_editado.codFornecedor = data.get('codFornecedor')
 
     db.session.commit()
-    return render_template('item_produto.html', produto=produto_editado.to_dict())
+    return render_template('item_produtos.html', produto=produto_editado.to_dict())
 
 @produto_route.route('/<int:produto_codigo>/delete', methods=['DELETE'])
 def deletar_produto(produto_codigo):

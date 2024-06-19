@@ -17,12 +17,11 @@ class Produtos(db.Model):
             'dataCadastro': self.dataCadastro,
             'codcategoria': self.codcategoria,
             'codFornecedor': self.codFornecedor,
-            'imagem_produto': self.imagem_produto  # Adicionando o campo da imagem
         }
 
     codigo = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100))
-    detalhes = db.Column(db.String(100))
+    detalhes = db.Column(db.String(200))
     minimoEstoque = db.Column(db.Integer())
     atualEstoque = db.Column(db.Integer())
     custoProduto = db.Column(db.Float(8, 2), nullable=False)
@@ -30,12 +29,11 @@ class Produtos(db.Model):
     dataCadastro = db.Column(db.String(100))
     codcategoria = db.Column(db.Integer, ForeignKey('categorias.codigo'))
     codFornecedor = db.Column(db.Integer, ForeignKey('fornecedores.codigo'))
-    imagem_produto = db.Column(db.String(100))  # Novo campo para armazenar o nome da imagem
 
     categoria_relacionado = relationship('Categorias', backref='produtos')
     fornecedor_relacionado = relationship('Fornecedores', backref='produtos')
 
-    def __init__(self, nome, detalhes, minimoEstoque, atualEstoque, custoProduto, vendaValor, dataCadastro, codcategoria=None, codFornecedor=None, imagem_produto=None):
+    def __init__(self, nome, detalhes, minimoEstoque, atualEstoque, custoProduto, vendaValor, dataCadastro, codcategoria=None, codFornecedor=None):
         self.nome = nome
         self.detalhes = detalhes
         self.minimoEstoque = minimoEstoque
@@ -43,7 +41,5 @@ class Produtos(db.Model):
         self.custoProduto = custoProduto
         self.vendaValor = vendaValor
         self.dataCadastro = dataCadastro
-        self.imagem_produto = imagem_produto
         self.codcategoria = codcategoria
         self.codFornecedor = codFornecedor
-        self.imagem_produto = imagem_produto  # Inicializando o campo da imagem
